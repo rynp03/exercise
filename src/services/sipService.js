@@ -46,26 +46,52 @@ const sipService = {
       const session = ua.call(`sip:${destination}@${sip_domain}`, {
         mediaConstraints: { audio: true, video: false },
         pcConfig: {
-          iceServers: [
-            { urls: "stun:stun.l.google.com:19302" },
-            { urls: "stun:stun.l.google.com:5349" },
-            { urls: "stun:stun1.l.google.com:3478" },
-            { urls: "stun:stun1.l.google.com:5349" },
-            { urls: "stun:stun2.l.google.com:19302" },
-            { urls: "stun:stun2.l.google.com:5349" },
-            { urls: "stun:stun3.l.google.com:3478" },
-            { urls: "stun:stun3.l.google.com:5349" },
-            { urls: "stun:stun4.l.google.com:19302" },
-            { urls: "stun:stun4.l.google.com:5349" }
-        ],
+          iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
         },
         eventHandlers: {
-          progress:  ()  => eventHandlers.progress?.(),
-          confirmed: ()  => eventHandlers.confirmed?.(),
-          ended:     (e) => eventHandlers.ended?.(e),
-          failed:    (e) => eventHandlers.failed?.(e),
+          progress: () => eventHandlers.progress?.(),
+          confirmed: () => {
+            // Access RTCPeerConnection after call is confirmed
+            const pc = session?.connection;
+            if (pc) {
+              console.log(
+                "[ICE] confirmed — ICE:",
+                pc.iceConnectionState,
+                "| conn:",
+                pc.connectionState,
+              );
+              pc.oniceconnectionstatechange = () =>
+                console.log("[ICE] state →", pc.iceConnectionState);
+              pc.onconnectionstatechange = () =>
+                console.log("[ICE] conn →", pc.connectionState);
+            } else {
+              console.log(
+                "[ICE] confirmed — no RTCPeerConnection found on session",
+              );
+            }
+            eventHandlers.confirmed?.();
+          },
+          ended: (e) => {
+            console.log(
+              "[SIP] call ended — originator:",
+              e.originator,
+              "| cause:",
+              e.cause,
+            );
+            eventHandlers.ended?.(e);
+          },
+          failed: (e) => {
+            console.log(
+              "[SIP] call failed — originator:",
+              e.originator,
+              "| cause:",
+              e.cause,
+            );
+            eventHandlers.failed?.(e);
+          },
         },
       });
+
       return session;
     } catch (e) {
       console.error("[SIP] makeCall error:", e);
