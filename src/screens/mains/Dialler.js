@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
-  NativeModules,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,7 +8,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
-import { requestRecordingPermissionsAsync } from "expo-audio";
+import { requestRecordingPermissionsAsync, setAudioModeAsync } from "expo-audio";
 import { useAuthStore } from "../../store/authStore";
 import { clearSession } from "../../utils/secureStorage";
 import sipService from "../../services/sipService";
@@ -140,11 +139,10 @@ const Dialler = ({ navigation }) => {
     setIsMuted(nextMuted);
   };
 
-  const toggleSpeaker = () => {
+  const toggleSpeaker = async () => {
     const nextSpeaker = !isSpeakerOn;
     try {
-      NativeModules?.InCallManager?.setForceSpeakerphoneOn?.(nextSpeaker);
-      NativeModules?.InCallManager?.setSpeakerphoneOn?.(nextSpeaker);
+      await setAudioModeAsync({ allowsRecording: true, shouldRouteThroughEarpiece: !nextSpeaker });
     } catch {}
     setIsSpeakerOn(nextSpeaker);
   };
