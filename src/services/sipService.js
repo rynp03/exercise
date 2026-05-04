@@ -36,6 +36,42 @@ const sipService = {
   },
 
   getUA: () => ua,
+
+  makeCall: (destination, sip_domain, eventHandlers = {}) => {
+    if (!ua) {
+      console.error("[SIP] makeCall: UA not initialised");
+      return null;
+    }
+    try {
+      const session = ua.call(`sip:${destination}@${sip_domain}`, {
+        mediaConstraints: { audio: true, video: false },
+        pcConfig: {
+          iceServers: [
+            { urls: "stun:stun.l.google.com:19302" },
+            { urls: "stun:stun.l.google.com:5349" },
+            { urls: "stun:stun1.l.google.com:3478" },
+            { urls: "stun:stun1.l.google.com:5349" },
+            { urls: "stun:stun2.l.google.com:19302" },
+            { urls: "stun:stun2.l.google.com:5349" },
+            { urls: "stun:stun3.l.google.com:3478" },
+            { urls: "stun:stun3.l.google.com:5349" },
+            { urls: "stun:stun4.l.google.com:19302" },
+            { urls: "stun:stun4.l.google.com:5349" }
+        ],
+        },
+        eventHandlers: {
+          progress:  ()  => eventHandlers.progress?.(),
+          confirmed: ()  => eventHandlers.confirmed?.(),
+          ended:     (e) => eventHandlers.ended?.(e),
+          failed:    (e) => eventHandlers.failed?.(e),
+        },
+      });
+      return session;
+    } catch (e) {
+      console.error("[SIP] makeCall error:", e);
+      return null;
+    }
+  },
 };
 
 export default sipService;
