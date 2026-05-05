@@ -1,12 +1,12 @@
 # TalkWisely — React Native SIP Calling Exercise
 
-![Expo](https://img.shields.io/badge/Expo-000000?style=for-the-badge&logo=expo&logoColor=white)
-![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![JsSIP](https://img.shields.io/badge/JsSIP-3B82F6?style=for-the-badge)
-![WebRTC](https://img.shields.io/badge/WebRTC-0F172A?style=for-the-badge)
-![Zustand](https://img.shields.io/badge/Zustand-18181B?style=for-the-badge)
-![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge)
-![CryptoJS](https://img.shields.io/badge/CryptoJS-111827?style=for-the-badge)
+[![Expo](https://img.shields.io/badge/Expo-000000?style=for-the-badge&logo=expo&logoColor=white)](https://www.npmjs.com/package/expo)
+[![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://www.npmjs.com/package/react-native)
+[![JsSIP](https://img.shields.io/badge/JsSIP-3B82F6?style=for-the-badge)](https://www.npmjs.com/package/jssip)
+[![WebRTC](https://img.shields.io/badge/WebRTC-0F172A?style=for-the-badge)](https://www.npmjs.com/package/react-native-webrtc)
+[![Zustand](https://img.shields.io/badge/Zustand-18181B?style=for-the-badge)](https://www.npmjs.com/package/zustand)
+[![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge)](https://www.npmjs.com/package/axios)
+[![CryptoJS](https://img.shields.io/badge/CryptoJS-111827?style=for-the-badge)](https://www.npmjs.com/package/crypto-js)
 
 ---
 
