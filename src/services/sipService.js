@@ -6,6 +6,7 @@ let ua = null;
 
 const sipService = {
   init: ({ sip_user, sip_password, sip_domain }, callbacks = {}) => {
+    // This app re-initialises SIP based on auth/session changes; keep it single-UA.
     if (ua) {
       ua.stop();
       ua = null;
@@ -38,6 +39,7 @@ const sipService = {
   getUA: () => ua,
 
   makeCall: (destination, sip_domain, eventHandlers = {}) => {
+    // `destination` should be the SIP user/extension (no domain).
     if (!ua) {
       console.error("[SIP] makeCall: UA not initialised");
       return null;
@@ -51,7 +53,7 @@ const sipService = {
         eventHandlers: {
           progress: () => eventHandlers.progress?.(),
           confirmed: () => {
-            // Access RTCPeerConnection after call is confirmed
+            // We only get a stable RTCPeerConnection once the call is confirmed.
             const pc = session?.connection;
             if (pc) {
               console.log(
@@ -60,6 +62,35 @@ const sipService = {
                 "| conn:",
                 pc.connectionState,
               );
+              // In some test setups WebRTC won't start a real mic capture automatically.
+              // Attaching a capture track here makes the native iOS/Android mic indicator behave as expected.
+              try {
+                const hasLocalAudioTrack = pc
+                  .getSenders?.()
+                  ?.some((s) => s?.track?.kind === "audio");
+                if (
+                  !hasLocalAudioTrack &&
+                  typeof navigator !== "undefined" &&
+                  navigator.mediaDevices?.getUserMedia
+                ) {
+                  navigator.mediaDevices
+                    .getUserMedia({ audio: true, video: false })
+                    .then((stream) => {
+                      const [track] = stream.getAudioTracks();
+                      if (!track) return;
+                      const senders = pc.getSenders?.() || [];
+                      const audioSender = senders.find(
+                        (s) => s?.track?.kind === "audio" || !s?.track,
+                      );
+                      if (audioSender?.replaceTrack) {
+                        audioSender.replaceTrack(track);
+                      } else if (pc.addTrack) {
+                        pc.addTrack(track, stream);
+                      }
+                    })
+                    .catch(() => {});
+                }
+              } catch (_) {}
               pc.oniceconnectionstatechange = () =>
                 console.log("[ICE] state →", pc.iceConnectionState);
               pc.onconnectionstatechange = () =>
