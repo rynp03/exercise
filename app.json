@@ -17,7 +17,11 @@
       "package": "com.aryan307.exercise",
       "permissions": [
         "RECORD_AUDIO",
-        "MODIFY_AUDIO_SETTINGS"
+        "MODIFY_AUDIO_SETTINGS",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
       ]
     },
     "ios": {
@@ -25,6 +29,12 @@
       "infoPlist": {
         "NSMicrophoneUsageDescription": "This app needs access to the microphone for SIP calling."
       }
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f550853b-3ed6-4b3f-b684-b781beb957a9"
+      }
+    },
+    "owner": "rynp307"
   }
 }
