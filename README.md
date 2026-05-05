@@ -11,7 +11,7 @@
 ---
 
 ### Download (Android APK)
-**APK link**: [Download APK](https://expo.dev/artifacts/your-link-here)
+**APK link**: [Download APK](https://expo.dev/artifacts/eas/b9eaVWHkNpfupEhKeYid6o.apk)
 
 ---
 
