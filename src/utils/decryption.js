@@ -12,5 +12,4 @@ export function decryptSipCredentials(encryptedUser, secretKeyBase64) {
   );
 
   return JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
-  // → { sip_user, sip_password, sip_domain, extension, ... }
 }
