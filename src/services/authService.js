@@ -11,10 +11,10 @@ export const authService = {
         {
           username,
           password,
-          domain: process.env.EXPO_PUBLIC_SIP_DOMAIN,
+          domain: domain?.trim(),
         },
       );
-      return response.data; // Returns { access, refresh })
+      return response.data; // Returns { access, refresh }
     } catch (error) {
       console.error("Login API Error:", error.response?.data || error.message);
       throw error;
@@ -26,6 +26,9 @@ export const authService = {
    */
   getSipCredentials: async (accessToken) => {
     try {
+      if (!accessToken || typeof accessToken !== "string") {
+        throw new Error("Missing access token for permissions request.");
+      }
       const response = await axios.get(
         `${BASE_URL}/talkwisely/core/permissions/`,
         {

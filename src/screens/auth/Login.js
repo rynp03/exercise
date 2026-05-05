@@ -31,8 +31,10 @@ const extractErrorMessage = (error) => {
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [domain, setDomain] = useState("");
   const [usernameFocused, setUsernameFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
+  const [domainFocused, setDomainFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -40,8 +42,8 @@ const Login = ({ navigation }) => {
   const setSipCredentials = useAuthStore((s) => s.setSipCredentials);
 
   const handleLogin = async () => {
-    if (!username.trim() || !password.trim()) {
-      setError("Please enter your username and password.");
+    if (!username.trim() || !password.trim() || !domain.trim()) {
+      setError("Please enter your username, password, and domain.");
       return;
     }
 
@@ -50,8 +52,16 @@ const Login = ({ navigation }) => {
 
     try {
       // Step 1: authenticate
-      const loginRes = await authService.login(username.trim(), password);
-      const { access, refresh } = loginRes.data;
+      const loginRes = await authService.login(
+        username.trim(),
+        password,
+        domain.trim(),
+      );
+      const access = loginRes?.access ?? loginRes?.data?.access;
+      const refresh = loginRes?.refresh ?? loginRes?.data?.refresh;
+      if (!access || !refresh) {
+        throw new Error("Login did not return access/refresh tokens.");
+      }
       setTokens({ access, refresh });
 
       // Step 2: fetch + decrypt SIP credentials (loader stays active)
@@ -110,6 +120,26 @@ const Login = ({ navigation }) => {
               onFocus={() => setPasswordFocused(true)}
               onBlur={() => setPasswordFocused(false)}
               secureTextEntry
+              editable={!loading}
+            />
+          </View>
+
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Domain</Text>
+            <TextInput
+              style={[styles.input, domainFocused && styles.inputFocused]}
+              placeholder="example.com"
+              placeholderTextColor="#999"
+              value={domain}
+              onChangeText={(v) => {
+                setDomain(v);
+                setError("");
+              }}
+              onFocus={() => setDomainFocused(true)}
+              onBlur={() => setDomainFocused(false)}
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="url"
               editable={!loading}
             />
           </View>

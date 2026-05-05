@@ -67,7 +67,6 @@ Add a `.env` file (or set these in your build environment) with the following ke
 
 - `EXPO_PUBLIC_API_BASE_URL`
 - `EXPO_PUBLIC_SOCKET_URL`
-- `EXPO_PUBLIC_SIP_DOMAIN`
 - `EXPO_PUBLIC_DECRYPTION_SECRET`
 - `EXPO_PUBLIC_SESSION_KEY`
 
