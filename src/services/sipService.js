@@ -39,7 +39,6 @@ const sipService = {
   getUA: () => ua,
 
   makeCall: (destination, sip_domain, eventHandlers = {}) => {
-    // `destination` should be the SIP user/extension (no domain).
     if (!ua) {
       console.error("[SIP] makeCall: UA not initialised");
       return null;
@@ -62,7 +61,6 @@ const sipService = {
                 "| conn:",
                 pc.connectionState,
               );
-              // In some test setups WebRTC won't start a real mic capture automatically.
               // Attaching a capture track here makes the native iOS/Android mic indicator behave as expected.
               try {
                 const hasLocalAudioTrack = pc
