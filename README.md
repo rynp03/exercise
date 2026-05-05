@@ -8,8 +8,6 @@
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge)
 ![CryptoJS](https://img.shields.io/badge/CryptoJS-111827?style=for-the-badge)
 
-Bare-bones voice calling app built with **SIP + WebRTC** against the TalkWisely backend. The focus is on **functionality and correctness**, not UI polish.
-
 ---
 
 ### Download (Android APK)
