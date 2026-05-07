@@ -14,16 +14,13 @@ export const authService = {
           domain: domain?.trim(),
         },
       );
-      return response.data; // Returns { access, refresh }
+      return response.data;
     } catch (error) {
       console.error("Login API Error:", error.response?.data || error.message);
       throw error;
     }
   },
 
-  /**
-   * Step 2 & 3: Fetch and Decrypt SIP Credentials
-   */
   getSipCredentials: async (accessToken) => {
     try {
       if (!accessToken || typeof accessToken !== "string") {
