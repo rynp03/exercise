@@ -101,9 +101,6 @@ const Dialler = ({ navigation }) => {
 
   const startCall = async () => {
     if (sipStatus !== SIP_STATUS.REGISTERED || !dialInput.trim()) return;
-
-    // Configure the audio session for two-way audio (mic + playback) before
-    // JsSIP calls getUserMedia internally via the react-native-webrtc polyfill.
     try {
       await setAudioModeAsync({ allowsRecording: true, shouldRouteThroughEarpiece: true });
     } catch {}
