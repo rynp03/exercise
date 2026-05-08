@@ -11,7 +11,7 @@
 ---
 
 ### Download (Android APK)
-**APK link**: [Download APK](https://drive.google.com/file/d/1ZoxwJvQYdVaPw-RvnGZ4BDnsZzOcbUYd/view?usp=drive_link)
+**APK link**: [Download APK](https://drive.google.com/file/d/1cjdB1etAQwF7xuoytQoCbgCd9uGW0BKn/view?usp=sharing)
 
 ---
 
